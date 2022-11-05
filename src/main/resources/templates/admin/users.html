@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Users</title>
 </head>
 <body>
-<h1>User information page</h1>
-<table  >
+<br>
+<h2>All Users</h2>
+<table>
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Surname</th>
+        <th>Last name</th>
         <th>Age</th>
         <th>City</th>
         <th>Email</th>
@@ -18,6 +20,7 @@
     </tr>
     </thead>
     <tbody>
+    <th:block th:each="user : ${users}">
         <tr>
             <td><span th:text="${user.getId()}">ID</span></td>
             <td><span th:text="${user.getName()}">Name</span></td>
@@ -27,14 +30,31 @@
             <td><span th:text="${user.getEmail()}">Email</span></td>
             <td>
                   <span th:each="role,iterStat : ${user.getRoles()}"
-                        th:text="${role.toString()} + ${!iterStat.last ? ', ' : ''}"></span>
+                          th:text="${role.toString()} + ${!iterStat.last ? ', ' : ''}"></span>
+            </td>
+
+
+            <td>
+                <form th:action="@{/admin/users/{id}(id=${user.getId()})}" method="get">
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/admin/users/{id}(id=${user.getId()})}" th:method="delete">
+                    <button type="submit">Delete</button>
+                </form>
             </td>
         </tr>
+
+    </th:block>
     </tbody>
 </table>
+<br>
+<form th:action="@{/admin/users/addNewUser}" method="get">
+    <button type="submit">Add new user</button>
+</form>
 <form th:action="@{/logout}" th:method="POST">
     <input type="submit" value="Logout">
 </form>
-
 </body>
 </html>
