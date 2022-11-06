@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<User> user = userRepository.findByName(username);
         if (user.isEmpty())
             throw  new UsernameNotFoundException("Пользователя с таким именем не существет.");
-        user.get().getRoles().size();
+        Hibernate.initialize(user.get().getRoles());
         return new UserDetailsImpl(user.get());
     }
 }
