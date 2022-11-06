@@ -45,7 +45,10 @@ public class AdminController {
     }
 
     @PatchMapping("/users/{id}")
-    public String update(@ModelAttribute("dto") DtoForView dto) {
+    public String update(@ModelAttribute("dto")  @Valid DtoForView dto, BindingResult bindingResult) {
+        dataValidator.validate(dto, bindingResult);
+        if (bindingResult.hasErrors())
+            return "admin/user-info";
         registrationService.update(dto.getUser(),dto.getRoles());
         return "redirect:/admin/users";
     }

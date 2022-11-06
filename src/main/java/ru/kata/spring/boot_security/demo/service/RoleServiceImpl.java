@@ -20,10 +20,4 @@ public class RoleServiceImpl implements RoleService{
     public Role getUserRole(RoleType roleType) {
         return rolesRepository.findByRoleName(roleType.name()).orElse(null);
     }
-
-
-
-
-
-
 }

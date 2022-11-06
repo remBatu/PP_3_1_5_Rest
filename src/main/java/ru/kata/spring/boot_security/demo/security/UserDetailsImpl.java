@@ -9,7 +9,6 @@ import java.util.Collection;
 public record UserDetailsImpl(User user) implements UserDetails {
 
     @Override
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles();
     }

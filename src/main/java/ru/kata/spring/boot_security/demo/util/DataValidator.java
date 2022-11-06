@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
 
 @Component
 public class DataValidator implements Validator {
@@ -26,11 +27,17 @@ public class DataValidator implements Validator {
     public void validate(Object target, Errors errors) {
         DtoForView dto=(DtoForView) target;
 
-       try {
-           userDetailsService.loadUserByUsername(dto.getUser().getName());
-       } catch (UsernameNotFoundException ignore){
-           return;
-       }
-       errors.rejectValue("user.name","","Пользователь с таким именем уже существует!");
+        UserDetailsImpl userDetails = null;
+
+
+        try {
+            userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(dto.getUser().getName());
+            if (dto.getUser().getId() == userDetails.user().getId())
+                return;
+        } catch (UsernameNotFoundException ignore){
+            return;
+        }
+
+        errors.rejectValue("user.name","","Пользователь с таким именем уже существует!");
     }
 }

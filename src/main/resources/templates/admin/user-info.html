@@ -10,6 +10,9 @@
 <form th:method="PATCH" th:action="@{/admin/users/{id}(id=${dto.user.getId()})}" th:object="${dto}">
   <label for="name">Name:</label>
   <input type="text" th:field="*{user.name}" id="name"/>
+  <div th:if="${#fields.hasErrors('user.name')}" th:errors="*{user.name}" style="color: red">
+    Username error
+  </div>
   <input type="hidden" th:field="*{user.id}" />
   <input type="hidden" th:field="*{user.password}" />
   <br>
