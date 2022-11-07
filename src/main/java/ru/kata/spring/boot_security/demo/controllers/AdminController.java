@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.service.RegistrationService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.DtoForView;
 import ru.kata.spring.boot_security.demo.util.DataValidator;
@@ -16,14 +15,11 @@ import javax.validation.Valid;
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
-    private final RegistrationService registrationService;
-
     private final DataValidator dataValidator;
 
     @Autowired
-    public AdminController(UserService userService, RegistrationService registrationService, DataValidator dataValidator) {
+    public AdminController(UserService userService, DataValidator dataValidator) {
         this.userService = userService;
-        this.registrationService = registrationService;
         this.dataValidator = dataValidator;
     }
 
@@ -49,7 +45,7 @@ public class AdminController {
         dataValidator.validate(dto, bindingResult);
         if (bindingResult.hasErrors())
             return "admin/user-info";
-        registrationService.update(dto.getUser(),dto.getRoles());
+        userService.update(dto.getUser(),dto.getRoles());
         return "redirect:/admin/users";
     }
 
@@ -64,7 +60,7 @@ public class AdminController {
         dataValidator.validate(dto,bindingResult);
         if (bindingResult.hasErrors())
             return "admin/new";
-        registrationService.register(dto.getUser(),dto.getRoles());
+        userService.save(dto.getUser(),dto.getRoles());
         return "redirect:/admin/users";
     }
 

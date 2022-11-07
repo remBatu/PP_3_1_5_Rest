@@ -14,7 +14,6 @@ import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -29,7 +28,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<User> user = userRepository.findByName(username);
         if (user.isEmpty())
             throw  new UsernameNotFoundException("Пользователя с таким именем не существет.");
-        Hibernate.initialize(user.get().getRoles());
         return new UserDetailsImpl(user.get());
     }
 }
