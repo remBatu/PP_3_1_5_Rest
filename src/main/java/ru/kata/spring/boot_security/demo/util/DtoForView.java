@@ -11,12 +11,15 @@ public class DtoForView {
     private User user;
     private ArrayList<RoleType> roles;
 
+
+
     public DtoForView() {
     }
 
     private DtoForView(User user, ArrayList<RoleType> roles) {
         this.user = user;
         this.roles = roles;
+
     }
 
     public static DtoForView getDTO(User user) {
@@ -45,4 +48,5 @@ public class DtoForView {
     public void setRoles(ArrayList<RoleType> roles) {
         this.roles = roles;
     }
+
 }

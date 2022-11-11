@@ -1,40 +1,120 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<h1>User information page</h1>
-<table  >
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Age</th>
-        <th>City</th>
-        <th>Email</th>
-        <th>Roles</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><span th:text="${user.getId()}">ID</span></td>
-            <td><span th:text="${user.getName()}">Name</span></td>
-            <td><span th:text="${user.getSurname()}">Surname</span></td>
-            <td><span th:text="${user.getAge()}">Age</span></td>
-            <td><span th:text="${user.getCity()}">City</span></td>
-            <td><span th:text="${user.getEmail()}">Email</span></td>
-            <td>
-                  <span th:each="role,iterStat : ${user.getRoles()}"
-                        th:text="${role.toString()} + ${!iterStat.last ? ', ' : ''}"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<form th:action="@{/logout}" th:method="POST">
-    <input type="submit" value="Logout">
-</form>
+<!-- шапка -->
+
+
+<div class="p-4 bg-dark text-white">
+    <nav id="mainNav" class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+        <div class="row">
+            <h4>
+                <tr>
+                    <td th:text="${#authentication.getPrincipal().getUsername()} + ' with roles: '">Username
+                    <td>
+        <span th:each="role,iterStat : ${#authentication.getPrincipal().authorities}"
+              th:text="${role.toString()} + ${!iterStat.last ? ', ' : ''}"></span>
+                    </td> <!-- Убираем [ ]  -->
+                </tr>
+            </h4>
+        </div>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
+            <form class="d-flex" th:action="@{/logout}" th:method="POST">
+                <button type="submit" class="btn btn-dark float-end">Logout</button>
+            </form>
+
+        </div>
+    </nav>
+</div>
+<!-- //шапка -->
+<!--контейнер-->
+<br>
+
+<div class="row">
+    <div class="col">
+
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+
+
+            <button class="nav-link active" id="v-pills-tab1-tab" data-bs-toggle="tab" data-bs-target="#user" role="tab"
+                    aria-controls="user" aria-selected="true">User
+            </button>
+
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="tab-content" id="rightSidePanel">
+                <!--                ////////вся праввя часть//////////-->
+        </div>
+        <div class="tab-pane fade  show active" id="user" role="tabpanel" aria-labelledby="user-tab">
+            <!--                ////////вкладка Юзер//////////-->
+            <h1>User information-page</h1>
+
+            <div class="card" style="width:95%;">
+                <div class="card-header">
+                    <h5 class="mb-0">About user</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Last name</th>
+                                <th>Age</th>
+                                <th>City</th>
+                                <th>Email</th>
+                                <th>Roles</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span th:text="${#authentication.getPrincipal().user().getId()}">ID</span></td>
+                                <td><span th:text="${#authentication.getPrincipal().user().getName()}">Name</span></td>
+                                <td><span th:text="${#authentication.getPrincipal().user().getSurname()}">Surname</span>
+                                </td>
+                                <td><span th:text="${#authentication.getPrincipal().user().getAge()}">Age</span></td>
+                                <td><span th:text="${#authentication.getPrincipal().user().getCity()}">City</span></td>
+                                <td><span th:text="${#authentication.getPrincipal().user().getEmail()}">Email</span>
+                                </td>
+                                <td>
+
+                                            <span th:each="role,iterStat : ${#authentication.getPrincipal().authorities}"
+                                                  th:text="${role.toString()} + ${!iterStat.last ? ', ' : ''}"></span>
+                                </td>
+
+
+                            </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--                ////////вкладка Юзер//////////-->
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

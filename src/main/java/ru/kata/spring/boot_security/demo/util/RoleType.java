@@ -1,8 +1,8 @@
 package ru.kata.spring.boot_security.demo.util;
 
 public enum RoleType {
-    ROLE_USER ("User"),
-     ROLE_ADMIN ("Admin");
+    ROLE_USER ("USER"),
+     ROLE_ADMIN ("ADMIN");
     private final String viewName;
 
     RoleType(String viewName) {

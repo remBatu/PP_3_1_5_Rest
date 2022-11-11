@@ -1,10 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import ru.kata.spring.boot_security.demo.util.RoleType;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -34,9 +33,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles = new LinkedHashSet<>();
 
+
+
     public Set<Role> getRoles() {
         return roles;
     }
+
+
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;

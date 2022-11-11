@@ -23,50 +23,35 @@ public class AdminController {
         this.dataValidator = dataValidator;
     }
 
-    @GetMapping
-    public String adminPage() {
-        return "admin/admin";
+    @GetMapping()
+    public String showAllUsers(Model model){
+        model.addAttribute("users", userService.getDtoUsers());
+        model.addAttribute("dto", DtoForView.getEmptyDTO());
+             return "admin";
     }
 
-    @GetMapping("/users")
-    public String showAllUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "admin/users";
-    }
-
-    @GetMapping("/users/{id}")
-    public String editUser(@PathVariable("id") int id, Model model) {
-        model.addAttribute("dto", DtoForView.getDTO(userService.getUser(id)));
-        return "admin/user-info";
-    }
 
     @PatchMapping("/users/{id}")
     public String update(@ModelAttribute("dto")  @Valid DtoForView dto, BindingResult bindingResult) {
         dataValidator.validate(dto, bindingResult);
         if (bindingResult.hasErrors())
-            return "admin/user-info";
-        userService.update(dto.getUser(),dto.getRoles());
-        return "redirect:/admin/users";
-    }
-
-    @GetMapping("users/addNewUser")
-    public String addNewUser(Model model) {
-        model.addAttribute("dto", DtoForView.getEmptyDTO());
-        return "admin/new";
+            return "admin";
+        userService.update(dto.getUser(), dto.getRoles());
+        return "redirect:/admin";
     }
 
     @PostMapping("/users")
     public String create(@ModelAttribute("dto") @Valid DtoForView dto, BindingResult bindingResult) {
         dataValidator.validate(dto,bindingResult);
         if (bindingResult.hasErrors())
-            return "admin/new";
+            return "admin";
         userService.save(dto.getUser(),dto.getRoles());
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @DeleteMapping("/users/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 }
