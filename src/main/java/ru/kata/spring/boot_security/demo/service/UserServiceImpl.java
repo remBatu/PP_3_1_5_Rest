@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import ru.kata.spring.boot_security.demo.util.DtoForView;
+import ru.kata.spring.boot_security.demo.util.UserDto;
 import ru.kata.spring.boot_security.demo.util.RoleType;
 
 import java.util.List;
@@ -28,11 +28,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-
-    @Override
-    public List<DtoForView> getDtoUsers() {
-        return getAllUsers().stream().map(DtoForView::getDTO).collect(Collectors.toList());
     }
 
     @Override

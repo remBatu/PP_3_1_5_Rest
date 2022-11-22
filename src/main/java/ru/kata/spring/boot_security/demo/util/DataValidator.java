@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.security.UserDetailsImpl;
 
 @Component
@@ -21,12 +20,12 @@ public class DataValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return DtoForView.class.equals(clazz);
+        return UserDto.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        DtoForView dto=(DtoForView) target;
+        UserDto dto=(UserDto) target;
 
         UserDetailsImpl userDetails = null;
 

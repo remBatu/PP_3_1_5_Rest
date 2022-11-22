@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .mvcMatchers("/admin/user").hasAnyRole("USER","ADMIN")
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                               .mvcMatchers("/user").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
@@ -39,7 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 
     @Bean
